@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<script>
+    var card = window.location.href.split("/")[4]
+    document.title = "Portal for " + card
+    function send(){
+        amount = document.getElementById("a").value
+        sr = document.getElementById("sr").value
+        window.location.href = "http://192.168.69.186:4449/v1/card/"+card+"/"+sr+"/"+amount
+    }
+    function recieve(){
+        amount = document.getElementById("a").value
+        sr = document.getElementById("sr").value
+        window.location.href = "http://192.168.69.186:4449/v1/card/"+sr+"/"+card+"/"+amount   
+    }
+    function save(){
+        localStorage.setItem("card",card)
+        window.location.reload()
+    }
+    function useSaved(){
+        document.getElementById("sr").value = localStorage.getItem("card")
+    }
+    function unSave(){
+        localStorage.removeItem("card")
+        window.location.reload()
+    }
+</script>
+<style>
+    body{
+        background-color: rgb(82, 73, 73);
+        color:white;
+        font-size: 1.5em;
+        text-align: center;
+    }
+</style>
+<body>
+    <p id="poggers"> </p>
+    <script>document.getElementById("poggers").innerHTML="This is the payment portal for " + card</script>
+    <button onclick="save()" id="ask">Is this your card? Click here!</button>
+    <details>
+        <summary>Show balance</summary>
+        <p>{bal} Pogbucks</p>
+    </details>
+    <input id="a" type="number" placeholder="Amount">
+    <input id="sr" type="text" placeholder="Reciever/Sender">
+    <button onclick="send()">Send</button>
+    <button onclick="recieve()">Recieve</button>
+    <script>
+        if ("card" in localStorage){
+            if (localStorage.getItem("card") == card){
+                var ask = document.getElementById("ask");
+                ask.innerHTML = "Unsave card"
+                document.getElementById("ask").setAttribute("onClick","unSave()") 
+            }
+            else{
+                document.getElementById("ask").innerHTML = "Use your saved card!"
+                document.getElementById("ask").setAttribute("onClick","useSaved()") 
+            }
+        }
+    </script>
+</body>
+</html>
